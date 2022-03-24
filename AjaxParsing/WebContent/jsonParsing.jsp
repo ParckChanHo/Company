@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="org.json.simple.*"%>	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>jsonParsing 하기</title>
 <!-- jQuery 실행하기 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
@@ -12,7 +13,7 @@
 </head>
 
 <body>
-	<h2>Ajax 파싱하기</h2>
+	<h2>jsonParsing 파싱하기</h2>
 	<input type=button id="text" value="파싱하기">
 	<div class="reset">
 	
@@ -23,25 +24,13 @@
 		$("#text").click(
 				function() {
 					alert("파싱 시작");
-
-					$.ajax({
-						type : "POST",
-						url : "parsing.jsp",
-						dataType : "xml",
-						success : function(data) {
-							var us = "";
-							$(data).find('contents').each(
-									// $(this) ==> Array(배열)의 인덱스를 옮겨다닐 때 마다 현재의 요소를 나타낸다.
-									function() {
-										alert( $(this).find('user').text());
-										alert($(this).find('join').text());
-									});
-						},
-						error : function(xhr, status, error) {
-							alert(error);
-						}
-					});
-				});
+					
+					
+				
+				
+				
+				
+				}); // end click
 	</script>
 	<!-- 
 	   (1)  find() 함수 ==> 어떤 요소의 하위 요소 중 특정 요소를 찾을 때 사용한다. ex) $( 'h1' ).find( 'span' ) ==> h1 요소의 하위 요소 중 <span> 요소를 선택한다.
@@ -55,26 +44,6 @@
 	   
 	   })
 
-
-	   DB 정보
-	   create table json(
-     		userId varchar2(20) primary key,
-	     	password  varchar2(20)  
-		);
-	
-		insert into json values('1234','1234');
-		insert into json values('1004','1004');
-		insert into json values('2222','2222');
-		insert into json values('3333','3333');
-		insert into json values('4444','4444');
-		insert into json values('1111','1111');
-		
-		select * from json;
-		
-		commit;
-	 
-	  
-	 
 	 -->
 
 </body>

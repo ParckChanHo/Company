@@ -3,6 +3,7 @@ package com.spring.board.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,8 +105,8 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardDelete.do", method = RequestMethod.POST)
-	public String boardDelete(Locale locale, Model model
+	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardDelete.do", method = RequestMethod.GET)
+	public String boardDelete(Locale locale, Model model,HttpServletResponse response
 			,@PathVariable("boardType")String boardType
 			,@PathVariable("boardNum")int boardNum) throws Exception{
 		
@@ -122,7 +123,8 @@ public class BoardController {
 		
 		System.out.println("callbackMsg::"+callbackMsg);
 		
-		return callbackMsg;
+		response.sendRedirect("/board/boardList.do");
+		return "redirect:/board/boardList.do";
 
 	}
 	

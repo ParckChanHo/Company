@@ -102,7 +102,7 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardDelete.do", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/board/{boardType}/{boardNum}/boardDelete.do", method = RequestMethod.GET)
 	public String boardDeleteView(Locale locale, Model model,HttpServletResponse response
 			,@PathVariable("boardType")String boardType
 			,@PathVariable("boardNum")int boardNum) throws Exception{
@@ -117,7 +117,7 @@ public class BoardController {
 
 		//response.sendRedirect("/board/boardDelete.do?callbackMsg="+str_success);
 		return "board/boardDelete";
-	}
+	}*/
 	
 	
 	
@@ -161,5 +161,26 @@ public class BoardController {
 		
 		return callbackMsg;
 	}
+	
+	@RequestMapping(value = "/board/boardDeleteAction.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String boardDeleteAction(Locale locale,BoardVo boardVo,HttpServletResponse response) throws Exception{
+		
+		HashMap<String, String> result = new HashMap<String, String>();
+		CommonUtil commonUtil = new CommonUtil();
+				
+		int resultCnt = boardService.deleteBoard(boardVo);
+		
+		result.put("success", (resultCnt > 0)?"Y":"N");
+		String callbackMsg = commonUtil.getJsonCallBackString(" ",result);
+		
+		System.out.println("callbackMsg::"+callbackMsg);
+		
+		return callbackMsg;
+	}
+	
+	
+	
+	
 	
 }

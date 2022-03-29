@@ -24,7 +24,7 @@
 		else{
 			alert(Msg);
 			alert("실패했습니다..");
-			window.history.back();
+			location.href = "/board/boardList.do?pageNo=1";
 		}
 		
 	});

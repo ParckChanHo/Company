@@ -26,7 +26,7 @@
 					
 					alert("¸Þ¼¼Áö:"+data.success);
 					
-					location.href = "/board/boardList.do?pageNo=";
+					location.href = "/board/boardList.do?pageNo=1";
 			    },
 			    error: function (jqXHR, textStatus, errorThrown)
 			    {

@@ -48,17 +48,13 @@ public class BoardController {
 		int page = 1;
 		int totalCnt = 0;
 		
-		pageVo.setPageNo(page);
-		
+	//	pageVo.setPageNo(page);
+		// 질문하기 ==> 이 if문이 안되어서 자꾸 null 오류가 난다.
+		// 따라서 PageVO 파라미터에 update,Delete에 파라미터에 /board/boardList.do?pageNo=1
 		if(pageVo.getPageNo() == 0){
-			pageVo.setPageNo(page);;
+			pageVo.setPageNo(page);
+			System.out.println("들어왔다!!!!");
 		}
-		String param_pageNo = request.getParameter("pageNo");
-		if(param_pageNo == null || param_pageNo.trim().equals("")) {
-			pageVo.setPageNo(1);
-			System.out.println("param_pageNo: "+param_pageNo);
-		}
-		
 		
 		boardList = boardService.SelectBoardList(pageVo);
 		totalCnt = boardService.selectBoardCnt();

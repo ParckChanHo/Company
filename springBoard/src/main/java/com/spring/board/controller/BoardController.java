@@ -34,6 +34,7 @@ import com.spring.common.CommonUtil;
 
 @Controller
 public class BoardController {
+	// 자바 코드에서 스크립트나 html이 들어간 것이 별로 좋은 코드가 아니다.
 	
 	@Autowired 
 	boardService boardService;
@@ -100,30 +101,23 @@ public class BoardController {
 		return "board/boardUpdate";
 	}
 	
-	@ResponseBody
+	
 	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardDelete.do", method = RequestMethod.GET)
-	public String boardDelete(Locale locale, Model model,HttpServletResponse response
+	public String boardDeleteView(Locale locale, Model model,HttpServletResponse response
 			,@PathVariable("boardType")String boardType
 			,@PathVariable("boardNum")int boardNum) throws Exception{
-		
-		HashMap<String, String> result = new HashMap<String, String>();
-		CommonUtil commonUtil = new CommonUtil();
-		
+			
 		BoardVo boardVo = new BoardVo();
 		boardVo.setBoardType(boardType);
 		boardVo.setBoardNum(boardNum);
 		int resultCnt = boardService.deleteBoard(boardVo);
-		
-		result.put("success", (resultCnt > 0)?"Y":"N");
-		String callbackMsg = commonUtil.getJsonCallBackString(" ",result);
-		
-		System.out.println("callbackMsg::"+callbackMsg);
-		
-		response.sendRedirect("/board/boardList.do");
-		return "redirect:/board/boardList.do";
+			
+		String str_success= resultCnt > 0 ? "Y":"N";
+		model.addAttribute("callbackMsg",str_success); //Y OR N
 
+		//response.sendRedirect("/board/boardDelete.do?callbackMsg="+str_success);
+		return "board/boardDelete";
 	}
-	
 	
 	
 	
@@ -167,25 +161,5 @@ public class BoardController {
 		
 		return callbackMsg;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

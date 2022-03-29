@@ -45,6 +45,7 @@
 			<a href = "/board/${board.boardType}/${board.boardNum}/boardUpdate.do">수정하기</a>
 			<a href = "/board/${board.boardType}/${board.boardNum}/boardDelete.do">삭제하기</a>
 		</td>
+		<!-- <a href = "/board/${board.boardType}/${board.boardNum}/boardDelete.do">삭제하기</a> -->
 	</tr>
 </table>	
 </body>

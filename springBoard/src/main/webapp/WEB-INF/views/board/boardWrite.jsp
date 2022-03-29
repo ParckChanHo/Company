@@ -13,8 +13,9 @@
 		
 		$j("#submit").on("click",function(){
 			var $frm = $j('.boardWrite :input');
-			var param = $frm.serialize(); // boardTitle=1234&boardComment=1234
-		
+			var param = $frm.serialize(); // boardType=a01&boardTitle=11&boardComment=111
+			alert(param);
+			
 			$j.ajax({
 			    url : "/board/boardWriteAction.do",
 			    dataType: "json", // 위의 url에 대한 return 값
@@ -33,22 +34,51 @@
 			    	alert("실패");
 			    }
 			});
-		});
+		}); // end
+		
+		/* $j("#plus").on("click",function(){
+		  var insertTr = "";
+			  
+		  insertTr += "<tr><td align='center'>Title</td><td><input name='boardTitle' type='text' size='50' value='${board.boardTitle}'></td></tr>";
+		  insertTr += "<tr><td align='center'>Comment</td><td><textarea name='boardComment' rows='20' cols='55'>${board.boardComment}</textarea> </td></tr>";
+		  
+		  $j("#tablePlus").append(insertTr);
+		}); // end
+		*/
+		
+		
+		
+		
 	});
 	
 
 </script>
 <body>
 <form class="boardWrite">
+	<h2 style="text-align:center;">글 작성하기</h2>
 	<table align="center">
 		<tr>
 			<td align="right">
-			<input id="submit" type="button" value="작성">
+				<input id="submit" type="button" value="작성">
+				<!-- <input id="plus" type="button" value="행추가"> -->
 			</td>
 		</tr>
+		
 		<tr>
 			<td>
-				<table border ="1"> 
+				<table border ="1" id="tablePlus"> 
+					<tr>
+						<td width="120" align="center">Type</td>
+						<td>
+							<select name="boardType"><!-- BOARD_TYPE으로 들어가야 한다. -->
+								<option value="a01">일반</option>
+								<option value="a02">Q&A</option>
+								<option value="a03">익명</option>
+								<option value="a04">자유</option>
+							</select>
+						
+						</td>		
+					</tr>
 					<tr>
 						<td width="120" align="center">
 						Title

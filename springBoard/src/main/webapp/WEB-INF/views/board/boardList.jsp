@@ -35,9 +35,23 @@
 					</td>
 				</tr>
 				<c:forEach items="${boardList}" var="list">
+					<c:set var="select_boardType" value="${list.boardType}" />
+
 					<tr>
 						<td align="center">
-							${list.boardType}
+							<c:choose>
+							   <c:when test="${select_boardType eq '홍길동'}">
+							       홍길동이 맞습니다.
+							   </c:when>
+							
+							   <c:when test="${name eq '철수'}">
+							       홍길동이 아닙니다.
+							   </c:when>
+							
+							   <c:otherwise>
+							       사람이 없습니다 ㅜㅜ
+							   </c:otherwise>
+							</c:choose>							
 						</td>
 						<td>
 							${list.boardNum}

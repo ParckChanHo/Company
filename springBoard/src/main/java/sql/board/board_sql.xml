@@ -74,7 +74,7 @@
     <select id="boardInsert" parameterType="com.spring.board.vo.BoardVo">
         INSERT INTO 
         BOARD
-        (BOARD_TYPE
+        (BOARD_TYPE <!-- 1 대신에 CODE_ID 값이 들어간다. 예를 들어서 ex) a01,a02,a03,a04 -->
         ,BOARD_NUM
         ,BOARD_TITLE
         ,BOARD_COMMENT
@@ -84,7 +84,7 @@
         ,MODIFIED_TIME
         )
         VALUES
-        ('1'
+        (#{boardType}
         ,(SELECT NVL(max(BOARD_NUM),0)+1
 	    FROM BOARD
 	    WHERE BOARD_TYPE = '1')

@@ -4,13 +4,18 @@ import java.util.List;
 
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.PageVo;
+import com.spring.board.vo.CheckBox;
 
 public interface boardService {
 
 	public String selectTest() throws Exception;
 
 	public List<BoardVo> SelectBoardList(PageVo pageVo) throws Exception;
-
+	
+	// checkBox 
+	public List<BoardVo> selectCheckBoxBoardList(CheckBox parameter) throws Exception;
+	
+	
 	public BoardVo selectBoard(String boardType, int boardNum) throws Exception;
 
 	public int selectBoardCnt() throws Exception;

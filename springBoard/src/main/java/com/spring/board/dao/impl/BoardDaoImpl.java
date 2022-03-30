@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.board.dao.BoardDao;
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.PageVo;
+import com.spring.board.vo.CheckBox;
 
 @Repository
 public class BoardDaoImpl implements BoardDao{
@@ -31,6 +32,14 @@ public class BoardDaoImpl implements BoardDao{
 	public List<BoardVo> selectBoardList(PageVo pageVo) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board.boardList",pageVo);
+	}
+	
+	// CheckBox BoardList
+	@Override
+	public List<BoardVo> selectCheckBoxBoardList(CheckBox parameter) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.selectCheckBoxBoardList",parameter);
+		// return sqlSession.selectCheckBoxBoardList("board.selectCheckBoxBoardList",parameter);
 	}
 	
 	@Override
@@ -61,6 +70,7 @@ public class BoardDaoImpl implements BoardDao{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board.deleteBoard", boardVo);
 	}
+	
 	
 	
 }

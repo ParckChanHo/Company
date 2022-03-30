@@ -31,6 +31,52 @@
 		WHERE NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10
     </select>
     
+    <!-- CheckBox BoardList --> 
+    <select id="selectCheckBoxBoardList" parameterType="com.spring.board.vo.Parameter" resultMap="boardVo">
+        SELECT 
+		  BOARD_TYPE
+		  ,BOARD_NUM
+		  ,BOARD_TITLE
+		  ,BOARD_COMMENT
+		  ,TOTAL_CNT
+		FROM 
+		(
+		  SELECT
+		      	BOARD_TYPE
+				,BOARD_NUM
+				,BOARD_TITLE
+				,BOARD_COMMENT
+		      	,ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS NUMROW
+		      	,COUNT(*) OVER() AS TOTAL_CNT
+			FROM
+				BOARD
+			where 1=1
+			<choose>
+				<when test="parameterCnt == 1">
+					<!-- a01 : 자유 -->
+					<if test="selectCheckBox.checkBox1 == 'checkboxAll'">
+					</if>
+				</when>
+				<when test="parameterCnt == 2">
+					and user_id =  #{selectCheckBox.checkBox2}
+				</when>
+				<when test="parameterCnt == 3">
+					and user_id =  #{selectCheckBox.checkBox3}
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+	
+		)
+		WHERE NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10
+    </select>
+    
+    
+    
+    
+    
+    
+    
     <select id="boardTotal" parameterType="Integer" resultType="Integer">
 		  SELECT
 		      	COUNT(*) AS TOTAL_CNT

@@ -30,6 +30,7 @@ import com.spring.board.HomeController;
 import com.spring.board.service.boardService;
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.PageVo;
+import com.spring.board.vo.CheckBox;
 import com.spring.common.CommonUtil;
 
 @Controller
@@ -68,31 +69,58 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	@RequestMapping(value = "/board/boardListAction.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String boardListAction(BoardVo boardVo,HttpServletResponse response,
-			@RequestParam(value="selectCheckBox") String[] check) throws Exception{
+	@RequestMapping(value = "/board/boardListAction.do")
+	public String boardListAction(BoardVo boardVo,HttpServletRequest request,
+			CheckBox parameter, Model model,PageVo pageVo) throws Exception{
+		List<BoardVo> boardList = new ArrayList<BoardVo>();
+		int totalCnt = 0;
 		
-			for(int i=0;i<check.length;i++) {
-				System.out.println(check[i]);
+		// controller에 배열 데이터 보내기 ==> https://baejangho.com/entry/JAVA-request-array
+		String[] arrayParam = request.getParameterValues("parameter"); // checkboxAll a01 a02 a03 a04
+		String pageNo = request.getParameter("pageNo");
+		parameter.setPageNo(Integer.parseInt(pageNo));
+		parameter.setParameterCnt(arrayParam.length); // 체크 박스 갯수 설정하기 1,2,3만 존재한다.
+		
+		if(arrayParam[0].equals("checkboxAll")) { // 전체 조회하기
+			pageVo.setPageNo(Integer.parseInt(pageNo));
+			boardList = boardService.SelectBoardList(pageVo);
+		}
+		else { // 전체 조회가 아닌경우
+			HashMap<String, String> checkBoxResult = new HashMap<String, String>();
+			
+			for (int i = 0; i < arrayParam.length; i++) {
+				int k = i+1;
+				System.out.println(arrayParam[i]); // checkboxAll a01 a02 a03 a04 
+				
+				checkBoxResult.put("checkBox"+k, arrayParam[i]); // a01 a02 a03 a04
 			}
-		/*
-		 * HashMap<String, String> result = new HashMap<String, String>(); CommonUtil
-		 * commonUtil = new CommonUtil();
-		 * 
-		 * int resultCnt = boardService.boardInsert(boardVo);
-		 * 
-		 * result.put("success", (resultCnt > 0)?"Y":"N"); String callbackMsg =
-		 * commonUtil.getJsonCallBackString(" ",result);
-		 * 
-		 * System.out.println("callbackMsg::"+callbackMsg);
-		 */
+			parameter.setSelectCheckBox(checkBoxResult);
+			boardList = boardService.selectCheckBoxBoardList(parameter);
+		}
 		
-		//return callbackMsg;
-		return "N";	
+		
+		
+		
+		
+		
+		
+		totalCnt = boardService.selectBoardCnt();
+		
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("totalCnt", totalCnt);
+		model.addAttribute("pageNo", Integer.parseInt(pageNo));
+				
+		//int resultCnt = boardService.boardInsert(boardVo);
+		
+		
+		return "board/boardSelectList";
 	}
 	
-	
+	/*
+	 	HashMap<String, String> checkBoxResult = new HashMap<String, String>();
+		checkBoxResult.put("pageNo", pageNo);
+		checkBoxResult.put("parameterCnt", pageNo);
+	*/
 	
 	
 	

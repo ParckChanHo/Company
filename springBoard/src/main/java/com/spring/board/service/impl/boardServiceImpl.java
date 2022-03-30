@@ -9,6 +9,7 @@ import com.spring.board.dao.BoardDao;
 import com.spring.board.service.boardService;
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.PageVo;
+import com.spring.board.vo.CheckBox;
 
 @Service
 public class boardServiceImpl implements boardService{
@@ -29,6 +30,13 @@ public class boardServiceImpl implements boardService{
 		return boardDao.selectBoardList(pageVo);
 	}
 	
+	// CheckBox SelectList
+	@Override
+	public List<BoardVo> selectCheckBoxBoardList(CheckBox parameter) throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.selectCheckBoxBoardList(parameter);
+	}
+
 	@Override
 	public int selectBoardCnt() throws Exception {
 		// TODO Auto-generated method stub

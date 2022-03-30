@@ -27,45 +27,18 @@
 
 		    $j("#checkbox_total").prop("checked", is_checked);
 		});
-		
-		// 선택된 체크박스의 값들을 배열에 집어넣기
-		var arr = [];
-		$j("#submit").on("click",function(){
-			$j('input:checkbox').each(function (index) {
-	            if($j(this).is(":checked")){
-	               // 전체 선택 ==> http://localhost:8080/board/boardList.do?checkList=checkbox_total&checkList=a01&checkList=a02&checkList=a03&checkList=a04
-	               // 부분 선택 ==> http:localhost:8080/board/boardList.do?checkList=a02&checkList=a03&checkList=a04       
-	                //alert($j(this).val()); // checkbox_total a01 a02 a03 a04
-	                arr.push($j(this).val());
-	             }
-	         }); //end each()
-	         
-	         $j.ajax({
-	     	    url : "/board/boardListAction.do",
-	     	    dataType: "json", // 위의 url에 대한 return 값
-	     	    type: "POST",
-	     	    data : {selectCheckBox : arr},
-	     	    success: function(data, textStatus, jqXHR)
-	     	    {
-	     			alert("작성완료");
-	     			
-	     			alert("메세지:"+data.success);
-	     			
-	     			location.href = "/board/boardList.do?pageNo=1";
-	     	    },
-	     	    error: function (jqXHR, textStatus, errorThrown)
-	     	    {
-	     	    	alert("실패");
-	     	    } 
-	     	 }); //end ajax */	 
-	         
-		}); // end submit
-		
-		 
-		 
-		 
+	 
 	}); // end document
-	
+
+	// 체크박스에 아무것도 체크되지 않았을 경우!
+	// 양식 제출(form) 방지
+	function onFormSubmit() {
+		var arrayCheckBoxLength = $j("input[name='checkboxName']:checked").length;	
+        
+		if(arrayCheckBoxLength === 0)
+			alert("아무것도 체크되지 않았습니다.");
+		return false;	
+	}
 
 	
 	
@@ -134,80 +107,18 @@
 	</table>	
 	
 	<!-- CheckBox 시작 -->
-	<form class="boardList">
+	<form action="/board/boardListAction.do" onsubmit="return onFormSubmit();"> 
 		<div align="center" class="checkbox_group">
-			<input type="checkbox" id="checkbox_total" name="parameter0" value="checkboxAll"><label for="checkbox_total">전체</label>&nbsp;&nbsp;
-			<input type="checkbox" class="normal" name="parameter1" id="checkbox1" value="a01"><label for="checkbox1">일반</label>&nbsp;&nbsp;
-			<input type="checkbox" class="normal" name="parameter2" id="checkbox2" value="a02"><label for="checkbox2">Q&A</label>&nbsp;&nbsp;
-			<input type="checkbox" class="normal" name="parameter3" id="checkbox3" value="a03"><label for="checkbox3">익명</label>&nbsp;&nbsp;
+			<input type="hidden" name="pageNo" value="${pageNo}"/>
+			
+			<input type="checkbox" id="checkbox_total" name="parameter" value="checkboxAll"><label for="checkbox_total">전체</label>&nbsp;&nbsp;
+			<input type="checkbox" class="normal" name="parameter" id="checkbox1" value="a01"><label for="checkbox1">일반</label>&nbsp;&nbsp;
+			<input type="checkbox" class="normal" name="parameter" id="checkbox2" value="a02"><label for="checkbox2">Q&A</label>&nbsp;&nbsp;
+			<input type="checkbox" class="normal" name="parameter" id="checkbox3" value="a03"><label for="checkbox3">익명</label>&nbsp;&nbsp;
 			<input type="checkbox" class="normal" name="parameter4" id="checkbox4" value="a04"><label for="checkbox4">자유</label>&nbsp;&nbsp;
 			<input type="submit" value="조회" id="submit">
 		</div>
 	</form>
-
-
-
-
-
-
-
-<!-- 
-	만약 아무런 체크박스를 체크하지 않으면 전체조회를 하든지 아니면 alert() 창을 띄우면 된다. 
-
-	[JS] 체크박스 전체선택,해제 로직 만들기 (회원가입,마케팅 약관동의 등)
-	(1) https://emessell.tistory.com/149    ===> 강추
-	(2) https://chobopark.tistory.com/134
-    (3) https://hianna.tistory.com/433
-    
-    // 선택된 체크박스의 값들을 배열에 집어넣기
-	var arr = [];
-    
-    $j("#submit").on("click",function(){
-         $j('input:checkbox').each(function (index) {
-            if($j(this).is(":checked")){
-               // 전체 선택 ==> http://localhost:8080/board/boardList.do?checkList=checkbox_total&checkList=a01&checkList=a02&checkList=a03&checkList=a04
-               // 부분 선택 ==> http:localhost:8080/board/boardList.do?checkList=a02&checkList=a03&checkList=a04       
-                alert($j(this).val()); // checkbox_total a01 a02 a03 a04
-                arr.push($j(this).val());
-             }
-         })
-     }); // end #submit
-    
-    
-   ===================================================================== 
-    var arrayCheckBoxLength = $j("input[name='checkboxName']:checked").length;
-		
-	//배열 생성
-	var arrayCheckBox = new Array(arrayCheckBoxLength);
-	//배열에 값 주입
-	for(var i=0; i<arrayCheckBoxLength; i++){                          
-		arrayCheckBox[i] = $j("input[name='checkboxName']:checked").eq(i).val();
-        alert(arrayCheckBox[i]);
-		
-	}
-    /* var param = $frm.serialize(); // name1=value1&name2=value2
-	alert(param); */
-	
-	/* $j.ajax({
-	    url : "/board/boardListAction.do",
-	    dataType: "json", // 위의 url에 대한 return 값
-	    type: "POST",
-	    data : param,
-	    success: function(data, textStatus, jqXHR)
-	    {
-			alert("작성완료");
-			
-			alert("메세지:"+data.success);
-			
-			location.href = "/board/boardList.do?pageNo=1";
-	    },
-	    error: function (jqXHR, textStatus, errorThrown)
-	    {
-	    	alert("실패");
-	    } 
-	 }); //end ajax */
-  
- -->
 
 
 </body>

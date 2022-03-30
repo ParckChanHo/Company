@@ -54,6 +54,7 @@ public class BoardController {
 		// 따라서 PageVO 파라미터에 update,Delete에 파라미터에 /board/boardList.do?pageNo=1
 		if(pageVo.getPageNo() == 0){
 			pageVo.setPageNo(page);
+			System.out.println("pageVo.getPageNo(): "+pageVo.getPageNo());
 			System.out.println("들어왔다!!!!");
 		}
 		
@@ -66,6 +67,37 @@ public class BoardController {
 		
 		return "board/boardList";
 	}
+	
+	@RequestMapping(value = "/board/boardListAction.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String boardListAction(BoardVo boardVo,HttpServletResponse response,
+			@RequestParam(value="selectCheckBox") String[] check) throws Exception{
+		
+			for(int i=0;i<check.length;i++) {
+				System.out.println(check[i]);
+			}
+		/*
+		 * HashMap<String, String> result = new HashMap<String, String>(); CommonUtil
+		 * commonUtil = new CommonUtil();
+		 * 
+		 * int resultCnt = boardService.boardInsert(boardVo);
+		 * 
+		 * result.put("success", (resultCnt > 0)?"Y":"N"); String callbackMsg =
+		 * commonUtil.getJsonCallBackString(" ",result);
+		 * 
+		 * System.out.println("callbackMsg::"+callbackMsg);
+		 */
+		
+		//return callbackMsg;
+		return "N";	
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardView.do", method = RequestMethod.GET)
 	public String boardView(Locale locale, Model model

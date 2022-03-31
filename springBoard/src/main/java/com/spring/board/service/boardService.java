@@ -12,10 +12,6 @@ public interface boardService {
 
 	public List<BoardVo> SelectBoardList(PageVo pageVo) throws Exception;
 	
-	// checkBox 
-	public List<BoardVo> selectCheckBoxBoardList(CheckBox parameter) throws Exception;
-	
-	
 	public BoardVo selectBoard(String boardType, int boardNum) throws Exception;
 
 	public int selectBoardCnt() throws Exception;

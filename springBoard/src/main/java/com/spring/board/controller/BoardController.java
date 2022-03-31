@@ -42,15 +42,26 @@ public class BoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	// @RequestParam(value="a",required=true) List<String> as
+	// List<String> checkBoxSelect
+	// @RequestParam(value="checkBoxSelect",required=false),
 	@RequestMapping(value = "/board/boardList.do", method = RequestMethod.GET)
-	public String boardList(Locale locale, Model model,PageVo pageVo,HttpServletRequest request) throws Exception{
-		
+	public String boardList( Model model,PageVo pageVo,HttpServletRequest request) throws Exception{
 		List<BoardVo> boardList = new ArrayList<BoardVo>();
 		
 		int page = 1;
 		int totalCnt = 0;
 		
-	//	pageVo.setPageNo(page);
+		if(pageVo.getCheckBoxSelect() != null) {
+			List<String> checkBoxSelect = pageVo.getCheckBoxSelect();
+			
+			for(int i=0; i<checkBoxSelect.size(); i++){
+				System.out.println(checkBoxSelect.get(i));
+			}
+		}
+		
+		
+		//	pageVo.setPageNo(page);
 		// 질문하기 ==> 이 if문이 안되어서 자꾸 null 오류가 난다.
 		// 따라서 PageVO 파라미터에 update,Delete에 파라미터에 /board/boardList.do?pageNo=1
 		if(pageVo.getPageNo() == 0){
@@ -69,52 +80,7 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	@RequestMapping(value = "/board/boardListAction.do")
-	public String boardListAction(BoardVo boardVo,HttpServletRequest request,
-			CheckBox parameter, Model model,PageVo pageVo) throws Exception{
-		List<BoardVo> boardList = new ArrayList<BoardVo>();
-		int totalCnt = 0;
-		
-		// controller에 배열 데이터 보내기 ==> https://baejangho.com/entry/JAVA-request-array
-		String[] arrayParam = request.getParameterValues("parameter"); // checkboxAll a01 a02 a03 a04
-		String pageNo = request.getParameter("pageNo");
-		parameter.setPageNo(Integer.parseInt(pageNo));
-		parameter.setParameterCnt(arrayParam.length); // 체크 박스 갯수 설정하기 1,2,3만 존재한다.
-		
-		if(arrayParam[0].equals("checkboxAll")) { // 전체 조회하기
-			pageVo.setPageNo(Integer.parseInt(pageNo));
-			boardList = boardService.SelectBoardList(pageVo);
-		}
-		else { // 전체 조회가 아닌경우
-			HashMap<String, String> checkBoxResult = new HashMap<String, String>();
-			
-			for (int i = 0; i < arrayParam.length; i++) {
-				int k = i+1;
-				System.out.println(arrayParam[i]); // checkboxAll a01 a02 a03 a04 
-				
-				checkBoxResult.put("checkBox"+k, arrayParam[i]); // a01 a02 a03 a04
-			}
-			parameter.setSelectCheckBox(checkBoxResult);
-			boardList = boardService.selectCheckBoxBoardList(parameter);
-		}
-		
-		
-		
-		
-		
-		
-		
-		totalCnt = boardService.selectBoardCnt();
-		
-		model.addAttribute("boardList", boardList);
-		model.addAttribute("totalCnt", totalCnt);
-		model.addAttribute("pageNo", Integer.parseInt(pageNo));
-				
-		//int resultCnt = boardService.boardInsert(boardVo);
-		
-		
-		return "board/boardSelectList";
-	}
+	
 	
 	/*
 	 	HashMap<String, String> checkBoxResult = new HashMap<String, String>();
@@ -238,9 +204,5 @@ public class BoardController {
 		
 		return callbackMsg;
 	}
-	
-	
-	
-	
 	
 }

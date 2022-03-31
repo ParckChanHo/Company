@@ -16,35 +16,19 @@
 		$j(".checkbox_group").on("click", "#checkbox_total", function () {
 		    $j(this).parents(".checkbox_group").find('input').prop("checked", $j(this).is(":checked"));
 		});
-
 		// 체크박스 개별 선택
 		$j(".checkbox_group").on("click", ".normal", function() {
 		    var is_checked = true;
-
 		    $j(".checkbox_group .normal").each(function(){
 		        is_checked = is_checked && $j(this).is(":checked");
 		    });
-
 		    $j("#checkbox_total").prop("checked", is_checked);
 		});
 	 
 	}); // end document
-
-	// 체크박스에 아무것도 체크되지 않았을 경우!
-	// 양식 제출(form) 방지
-	function onFormSubmit() {
-		var arrayCheckBoxLength = $j("input[name='checkboxName']:checked").length;	
-        
-		if(arrayCheckBoxLength === 0)
-			alert("아무것도 체크되지 않았습니다.");
-		return false;	
-	}
-
-	
-	
-	
 </script>
-<body>
+<body>	
+	
 	<table align="center">
 		<tr>
 			<td align="right">
@@ -107,15 +91,15 @@
 	</table>	
 	
 	<!-- CheckBox 시작 -->
-	<form action="/board/boardListAction.do" onsubmit="return onFormSubmit();"> 
+	<form action="/board/boardList.do"> 
 		<div align="center" class="checkbox_group">
 			<input type="hidden" name="pageNo" value="${pageNo}"/>
 			
-			<input type="checkbox" id="checkbox_total" name="parameter" value="checkboxAll"><label for="checkbox_total">전체</label>&nbsp;&nbsp;
-			<input type="checkbox" class="normal" name="parameter" id="checkbox1" value="a01"><label for="checkbox1">일반</label>&nbsp;&nbsp;
-			<input type="checkbox" class="normal" name="parameter" id="checkbox2" value="a02"><label for="checkbox2">Q&A</label>&nbsp;&nbsp;
-			<input type="checkbox" class="normal" name="parameter" id="checkbox3" value="a03"><label for="checkbox3">익명</label>&nbsp;&nbsp;
-			<input type="checkbox" class="normal" name="parameter4" id="checkbox4" value="a04"><label for="checkbox4">자유</label>&nbsp;&nbsp;
+			<input type="checkbox" id="checkbox_total" name="all" value="checkboxAll"><label for="checkbox_total">전체</label>&nbsp;&nbsp;
+			<input type="checkbox" class="normal" name="checkBoxSelect" id="checkbox1" value="a01"><label for="checkbox1">일반</label>&nbsp;&nbsp;
+			<input type="checkbox" class="normal" name="checkBoxSelect" id="checkbox2" value="a02"><label for="checkbox2">Q&A</label>&nbsp;&nbsp;
+			<input type="checkbox" class="normal" name="checkBoxSelect" id="checkbox3" value="a03"><label for="checkbox3">익명</label>&nbsp;&nbsp;
+			<input type="checkbox" class="normal" name="checkBoxSelect" id="checkbox4" value="a04"><label for="checkbox4">자유</label>&nbsp;&nbsp;
 			<input type="submit" value="조회" id="submit">
 		</div>
 	</form>

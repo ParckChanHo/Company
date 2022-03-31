@@ -9,6 +9,7 @@
     	<result property="boardComment" column="BOARD_COMMENT"/>
     </resultMap>
     
+    <!-- List<String> checkBoxSelect; -->
     <select id="boardList" parameterType="com.spring.board.vo.PageVo" resultMap="boardVo">
         SELECT 
 		  BOARD_TYPE
@@ -23,16 +24,29 @@
 				,BOARD_NUM
 				,BOARD_TITLE
 				,BOARD_COMMENT
+				<!-- BOARD_NUM을 큰 번호 순으로 정렬해주겠다 다만 이름을 NUMROW으로 해주겠음!!! -->
 		      	,ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS NUMROW
+		      	<!-- 행 수를 정하겠다. 이름은 TOTAL_CNT -->
 		      	,COUNT(*) OVER() AS TOTAL_CNT
-			FROM
-				BOARD	
+						
+			 <!--  -->   
+			<choose>
+				<when test='checkBoxSelect != null'>
+					FROM BOARD a,COM_CODE b where a.board_type = b.CODE_ID and a.board_type IN
+					<foreach item="item" index="index" collection="checkBoxSelect" separator="," open="(" close=")">
+						 #{item}
+					</foreach>
+				</when>
+				<otherwise> <!-- null -->
+					FROM BOARD
+				</otherwise>
+			</choose>
 		)
 		WHERE NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10
     </select>
     
     <!-- CheckBox BoardList --> 
-    <select id="selectCheckBoxBoardList" parameterType="com.spring.board.vo.Parameter" resultMap="boardVo">
+   <!--  <select id="selectCheckBoxBoardList" parameterType="com.spring.board.vo.Parameter" resultMap="boardVo">
         SELECT 
 		  BOARD_TYPE
 		  ,BOARD_NUM
@@ -53,8 +67,9 @@
 			where 1=1
 			<choose>
 				<when test="parameterCnt == 1">
-					<!-- a01 : 자유 -->
+					
 					<if test="selectCheckBox.checkBox1 == 'checkboxAll'">
+					 	and BOARD_TYPE = 'a01'
 					</if>
 				</when>
 				<when test="parameterCnt == 2">
@@ -69,7 +84,7 @@
 	
 		)
 		WHERE NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10
-    </select>
+    </select> -->
     
     
     
@@ -132,8 +147,7 @@
         VALUES
         (#{boardType}
         ,(SELECT NVL(max(BOARD_NUM),0)+1
-	    FROM BOARD
-	    WHERE BOARD_TYPE = '1')
+	    FROM BOARD)
         ,#{boardTitle}
         ,#{boardComment}
         ,'SYSTEM'

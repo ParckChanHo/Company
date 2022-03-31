@@ -13,7 +13,7 @@ public interface BoardDao {
 	public List<BoardVo> selectBoardList(PageVo pageVo) throws Exception;
 	
 	// CheckBox BoardList
-	public List<BoardVo> selectCheckBoxBoardList(CheckBox parameter);
+	//public List<BoardVo> selectCheckBoxBoardList(CheckBox parameter);
 	
 	public BoardVo selectBoard(BoardVo boardVo) throws Exception;
 

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class CheckBox {
 	public int pageNo = 0;
-	public int parameterCnt = 0; // 체크박스를 몇개 선택했는지
+	public String parameterCnt; // 체크박스를 몇개 선택했는지
 	
 	/*
 	   parameterCnt가 1인경우 ===>checkBox1
@@ -24,11 +24,12 @@ public class CheckBox {
 	
 	public Map<String, String> selectCheckBox;
 
-	public int getParameterCnt() {
+
+	public String getParameterCnt() {
 		return parameterCnt;
 	}
 
-	public void setParameterCnt(int parameterCnt) {
+	public void setParameterCnt(String parameterCnt) {
 		this.parameterCnt = parameterCnt;
 	}
 

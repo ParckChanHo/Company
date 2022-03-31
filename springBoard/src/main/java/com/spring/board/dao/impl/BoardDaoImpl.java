@@ -34,14 +34,6 @@ public class BoardDaoImpl implements BoardDao{
 		return sqlSession.selectList("board.boardList",pageVo);
 	}
 	
-	// CheckBox BoardList
-	@Override
-	public List<BoardVo> selectCheckBoxBoardList(CheckBox parameter) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("board.selectCheckBoxBoardList",parameter);
-		// return sqlSession.selectCheckBoxBoardList("board.selectCheckBoxBoardList",parameter);
-	}
-	
 	@Override
 	public int selectBoardCnt() throws Exception {
 		// TODO Auto-generated method stub

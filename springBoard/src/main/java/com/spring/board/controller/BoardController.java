@@ -80,10 +80,13 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	@RequestMapping(value = "/board/boardList.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/board/boardList.do", method = RequestMethod.POST,produces = "application/text; charset=EUC-KR")
 	@ResponseBody
-	public String CheckBoxboardList(Model model,PageVo pageVo,HttpServletRequest request,
+	public String CheckBoxboardList(Model model,PageVo pageVo,HttpServletRequest request,HttpServletResponse response,
 			@RequestParam(value="checkBoxArray[]",required=false) List<String> checkBoxSelect) throws Exception{
+		response.setCharacterEncoding("EUC-KR");
+
+		
 		List<BoardVo> boardList = new ArrayList<BoardVo>();
 		
 		int page = 1;

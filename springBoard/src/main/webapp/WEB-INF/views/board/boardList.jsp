@@ -71,6 +71,7 @@
 			    url : "/board/boardList.do",
 			    dataType: "json", // 위의 url에 대한 return 값
 			    type: "POST",
+			    contentType: "application/x-www-form-urlencoded; charset=EUC-KR",
 			    data : param,
 			    success: function(data, textStatus, jqXHR)
 			    {
@@ -85,10 +86,10 @@
 			    	// <a href = "/board/${list.boardType}/${list.boardNum}/boardView.do?pageNo=${pageNo}">${list.boardTitle}</a>
 			    	for(var i=0;i<data.boardList.length;i++){
 						$j('#boardTable').append("<tr><td align='center'>" + data.boardList[i].codeName + "</td>" +
-													"<td>" + data.boardList[i].boardNum + "</td>" +
-													"<td><a href= /board/" + data.boardList[i].boardType 
+													"<td align='center'>" + data.boardList[i].boardNum + "</td>" +
+													"<td align='center'><a href= /board/" + data.boardList[i].boardType 
 															+ "/" + data.boardList[i].boardNum 
-															+ "/boardView.do?pageNo="+data.pageNo+"/>"+"</tr>");
+															+ "/boardView.do?pageNo="+data.pageNo+">"+ data.boardList[i].boardTitle +"</a></tr>");
 			    	}
 			    },
 			    error: function (jqXHR, textStatus, errorThrown)

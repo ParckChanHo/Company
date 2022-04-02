@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PageVo {
-	List<String> checkBoxSelect;
+	List<String> checkBoxSelect = null;
 	public int pageNo = 0;
 	
 	public List<String> getCheckBoxSelect() {

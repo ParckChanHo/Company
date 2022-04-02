@@ -10,6 +10,7 @@ import com.spring.board.service.boardService;
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.PageVo;
 import com.spring.board.vo.CheckBox;
+import com.spring.board.vo.CodeName;
 
 @Service
 public class boardServiceImpl implements boardService{
@@ -63,6 +64,13 @@ public class boardServiceImpl implements boardService{
 	public int deleteBoard(BoardVo boardVo) throws Exception {
 		// TODO Auto-generated method stub
 		return boardDao.deleteBoard(boardVo);
+	}
+	
+	// CODE_NAME ª—∑¡¡÷±‚
+	@Override
+	public List<CodeName> SelectCodeName() throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.SelectCodeName();
 	}
 	
 	

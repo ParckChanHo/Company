@@ -5,9 +5,12 @@ import java.util.List;
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.PageVo;
 import com.spring.board.vo.CheckBox;
+import com.spring.board.vo.CodeName;
 
 public interface BoardDao {
-
+	// CODE_NAME ª—∑¡¡÷±‚
+	public List<CodeName> SelectCodeName() throws Exception;
+	
 	public String selectTest() throws Exception;
 
 	public List<BoardVo> selectBoardList(PageVo pageVo) throws Exception;

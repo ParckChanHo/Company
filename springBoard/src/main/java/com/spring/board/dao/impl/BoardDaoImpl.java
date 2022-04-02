@@ -10,6 +10,7 @@ import com.spring.board.dao.BoardDao;
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.PageVo;
 import com.spring.board.vo.CheckBox;
+import com.spring.board.vo.CodeName;
 
 @Repository
 public class BoardDaoImpl implements BoardDao{
@@ -61,6 +62,12 @@ public class BoardDaoImpl implements BoardDao{
 	public int deleteBoard(BoardVo boardVo) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board.deleteBoard", boardVo);
+	}
+	
+	@Override
+	public List<CodeName> SelectCodeName() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.SelectCodeName");
 	}
 	
 	

@@ -3,11 +3,13 @@ package com.spring.board.service;
 import java.util.List;
 
 import com.spring.board.vo.BoardVo;
+import com.spring.board.vo.CodeName;
 import com.spring.board.vo.PageVo;
-import com.spring.board.vo.CheckBox;
 
 public interface boardService {
-
+	// CODE_NAME ª—∑¡¡÷±‚
+	public List<CodeName> SelectCodeName() throws Exception;
+	
 	public String selectTest() throws Exception;
 
 	public List<BoardVo> SelectBoardList(PageVo pageVo) throws Exception;

@@ -7,7 +7,21 @@
     	<result property="boardNum" 	column="BOARD_NUM"/>
     	<result property="boardTitle" 	column="BOARD_TITLE"/>
     	<result property="boardComment" column="BOARD_COMMENT"/>
+    	<result property="codeName" column="CODE_NAME"/>
     </resultMap>
+    
+    <!-- CODE_NAME 뿌려주기 -->
+    <resultMap type="com.spring.board.vo.CodeName" id="CodeName">
+    	<result property="codeId" 	column="CODE_ID"/>
+    	<result property="codeName" column="CODE_NAME"/>
+    </resultMap>
+    
+    <!-- CODE_NAME 뿌려주기 -->
+    <select id="SelectCodeName" resultMap="CodeName">
+    	SELECT CODE_ID,CODE_NAME
+    	FROM COM_CODE
+    	WHERE CODE_TYPE = 'menu' 
+    </select>
     
     <!-- List<String> checkBoxSelect; -->
     <select id="boardList" parameterType="com.spring.board.vo.PageVo" resultMap="boardVo">
@@ -17,6 +31,7 @@
 		  ,BOARD_TITLE
 		  ,BOARD_COMMENT
 		  ,TOTAL_CNT
+		  ,CODE_NAME
 		FROM 
 		(
 		  SELECT
@@ -28,7 +43,7 @@
 		      	,ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS NUMROW
 		      	<!-- 행 수를 정하겠다. 이름은 TOTAL_CNT -->
 		      	,COUNT(*) OVER() AS TOTAL_CNT
-						
+				,CODE_NAME		
 			 <!--  -->   
 			<choose>
 				<when test='checkBoxSelect != null'>
@@ -38,7 +53,7 @@
 					</foreach>
 				</when>
 				<otherwise> <!-- null -->
-					FROM BOARD
+					FROM BOARD a,COM_CODE b where a.board_type = b.CODE_ID
 				</otherwise>
 			</choose>
 		)

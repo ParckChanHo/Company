@@ -36,21 +36,35 @@
 			});
 		}); // end
 		
-		/* $j("#plus").on("click",function(){
+		$j("#plus").on("click",function(){
 		  var insertTr = "";
-			  
-		  insertTr += "<tr><td align='center'>Title</td><td><input name='boardTitle' type='text' size='50' value='${board.boardTitle}'></td></tr>";
-		  insertTr += "<tr><td align='center'>Comment</td><td><textarea name='boardComment' rows='20' cols='55'>${board.boardComment}</textarea> </td></tr>";
+		
+		  insertTr +="<tr><td class='deleteInsert' width='120' align='center'>Type</td>"+
+		  "<td><select name='boardType'>"+
+			  "<option value='a01'>일반</option>" +
+			  "<option value='a02'>Q&A</option>" +
+			  "<option value='a03'>익명</option>" +
+			  "<option value='a04'>자유</option>"	 +
+		  "</select><input type='button' id='delete'  onclick='deleteRow(this)' value='행삭제' style='float: right;'> </td></tr>"
 		  
-		  $j("#tablePlus").append(insertTr);
-		}); // end
-		*/
-		
-		
-		
-		
+		  insertTr += "<tr><td align='center' class='deleteInsert'>Title</td><td><input name='boardTitle' type='text' size='50'></td></tr>";
+		  insertTr += "<tr><td align='center' class='deleteInsert'>Comment</td><td><textarea name='boardComment' rows='20' cols='55'></textarea></td></tr>";
+		  
+		  $j("#tablePlusOrDelete tr").eq(2).after(insertTr);
+		  //  $j("#tablePlusOrDelete tr").eq(2).after(insertTr);
+		}); // end		
 	});
 	
+	// 행 삭제하기
+	function deleteRow(obj){
+		 // this == <td> 를 의미하며 parent()는 <tr>를 의미한다.
+		 var tr =  $j(obj).parent().parent();
+		 console.log(tr);
+		 tr.next().remove();
+		 tr.next().remove();
+		 
+		 tr.remove();
+	}
 
 </script>
 <body>
@@ -60,13 +74,14 @@
 		<tr>
 			<td align="right">
 				<input id="submit" type="button" value="작성">
-				<!-- <input id="plus" type="button" value="행추가"> -->
+				<input id="plus" type="button" value="행추가">
+				<!-- <input id="delete" type="button" value="행삭제"> -->  
 			</td>
 		</tr>
 		
 		<tr>
 			<td>
-				<table border ="1" id="tablePlus"> 
+				<table border ="1" id="tablePlusOrDelete"> 
 					<tr>
 						<td width="120" align="center">Type</td>
 						<td>
@@ -76,9 +91,11 @@
 								<option value="a03">익명</option>
 								<option value="a04">자유</option>
 							</select>
-						
-						</td>		
+							<!-- 행 삭제 -->
+							<input type="button" id="delete" value="행삭제" style="float: right;" onclick='deleteRow(this)'>
+						</td>	
 					</tr>
+					
 					<tr>
 						<td width="120" align="center">
 						Title
@@ -98,8 +115,6 @@
 					<tr>
 						<td align="center">
 						Writer
-						</td>
-						<td>
 						</td>
 					</tr>
 				</table>

@@ -82,8 +82,8 @@ public class BoardController {
 	
 	@RequestMapping(value = "/board/boardList.do", method = RequestMethod.POST,produces = "application/text; charset=EUC-KR")
 	@ResponseBody
-	public String CheckBoxboardList(Model model,PageVo pageVo,HttpServletRequest request,HttpServletResponse response,
-			@RequestParam(value="checkBoxArray[]",required=false) List<String> checkBoxSelect) throws Exception{
+	public String CheckBoxboardList(Model model,PageVo pageVo,HttpServletRequest request,HttpServletResponse response)
+			 throws Exception{
 		response.setCharacterEncoding("EUC-KR");
 
 		
@@ -199,12 +199,23 @@ public class BoardController {
 	
 	@RequestMapping(value = "/board/boardWriteAction.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String boardWriteAction(Locale locale,BoardVo boardVo,HttpServletResponse response) throws Exception{
+	public String boardWriteAction(BoardVo boardVo,HttpServletResponse response,
+			 @RequestParam(value="typeList[]") List<String> typeList, @RequestParam(value="titleList[]") List<String> titleList
+			 , @RequestParam(value="commentList[]") List<String> commentList) throws Exception{
 		
 		HashMap<String, String> result = new HashMap<String, String>();
 		CommonUtil commonUtil = new CommonUtil();
-				
-		int resultCnt = boardService.boardInsert(boardVo);
+		int resultCnt = -10; 
+		
+		for(int i=0;i<typeList.size();i++) {
+			boardVo = new BoardVo();
+			boardVo.setBoardType(typeList.get(i));
+			boardVo.setBoardTitle(titleList.get(i));
+			boardVo.setBoardComment(commentList.get(i));
+			
+			resultCnt = boardService.boardInsert(boardVo);
+		}
+		//int resultCnt = boardService.boardInsert(boardVo);
 		
 		result.put("success", (resultCnt > 0)?"Y":"N");
 		String callbackMsg = commonUtil.getJsonCallBackString(" ",result);

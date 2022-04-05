@@ -47,11 +47,11 @@
 				,CODE_NAME	
 				
 			FROM BOARD a,COM_CODE b where a.board_type = b.CODE_ID	
-			 <!--  -->   
+			   
 			<choose>
 				<when test='checkBoxSelect != null'>
 					 and a.board_type IN
-					<foreach item="item" index="index" collection="checkBoxSelect" separator="," open="(" close=")">
+					<foreach item="item" collection="checkBoxSelect" separator="," open="(" close=")">
 						 #{item}
 					</foreach>
 				</when>

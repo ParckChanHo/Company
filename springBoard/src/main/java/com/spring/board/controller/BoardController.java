@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,16 +62,7 @@ public class BoardController {
 		boardList = boardService.SelectBoardList(pageVo);
 		totalCnt = boardService.selectBoardCnt();
 		
-		// CODE_NAME을 중복되지 않게 뿌려주기!!!
-		/*ArrayList<String> resultList = new ArrayList<String> ();
-		
-		for(int i=0; i<boardList.size(); i++) {
-			String a = boardList.get(i).getBoardType(); 
-			if(!resultList.contains(a)) {
-				resultList.add(a);
-				System.out.println(a);
-			}
-		}*/
+	
 		
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("totalCnt", totalCnt);
@@ -192,29 +184,51 @@ public class BoardController {
 	
 	@RequestMapping(value = "/board/boardWrite.do", method = RequestMethod.GET)
 	public String boardWrite(Locale locale, Model model) throws Exception{
-		
+		// CODE_NAME 뿌려주기
+		List<CodeName> codeName = boardService.SelectCodeName();
+		model.addAttribute("codeName", codeName); //a01 a02 a03 a04 
 		
 		return "board/boardWrite";
 	}
 	
-	@RequestMapping(value = "/board/boardWriteAction.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/board/boardWriteAction.do")
 	@ResponseBody
-	public String boardWriteAction(BoardVo boardVo,HttpServletResponse response,
-			 @RequestParam(value="typeList[]") List<String> typeList, @RequestParam(value="titleList[]") List<String> titleList
-			 , @RequestParam(value="commentList[]") List<String> commentList) throws Exception{
+	public String boardWriteAction(BoardVo boardVo,HttpServletResponse response,Model model
+		) throws Exception{
+		// 해결해야 할 점 ===> List<BoardVo> boardList = new ArrayList<BoardVo>(); 이런식으로 받을 수 있게....
 		
 		HashMap<String, String> result = new HashMap<String, String>();
 		CommonUtil commonUtil = new CommonUtil();
 		int resultCnt = -10; 
 		
-		for(int i=0;i<typeList.size();i++) {
-			boardVo = new BoardVo();
-			boardVo.setBoardType(typeList.get(i));
-			boardVo.setBoardTitle(titleList.get(i));
-			boardVo.setBoardComment(commentList.get(i));
-			
-			resultCnt = boardService.boardInsert(boardVo);
+		//System.out.println("System.out.println() 입니다.");
+		if(boardVo.getBoardVoList() != null) {
+			for(int i=0; i<boardVo.getBoardVoList().size(); i++ ) {
+				BoardVo listBoardVo = boardVo.getBoardVoList().get(i);
+				
+				/*System.out.printf("boardVoList[%d].boardType: %s", i,listBoardVo.getBoardType());
+				System.out.printf("boardVoList[%d].boardTitle: %s", i,listBoardVo.getBoardTitle());
+				System.out.printf("boardVoList[%d].boardComment: %s", i,listBoardVo.getBoardComment());*/
+				if(listBoardVo.getBoardType() == null || listBoardVo.getBoardType().trim().equals("") ||
+						listBoardVo.getBoardTitle() == null ||	listBoardVo.getBoardTitle().trim().equals("") || 
+						listBoardVo.getBoardComment() == null || listBoardVo.getBoardComment().trim().equals("")) {
+					System.out.println("null 입니다.");
+				}
+				else {
+					resultCnt = boardService.boardInsert(listBoardVo);
+				}
+			}
+			System.out.println("찬호야 축하한다.");
 		}
+		
+		/*
+		 * for(int i=0;i<typeList.size();i++) { boardVo = new BoardVo();
+		 * boardVo.setBoardType(typeList.get(i));
+		 * boardVo.setBoardTitle(titleList.get(i));
+		 * boardVo.setBoardComment(commentList.get(i));
+		 * 
+		 * resultCnt = boardService.boardInsert(boardVo); }
+		 */
 		//int resultCnt = boardService.boardInsert(boardVo);
 		
 		result.put("success", (resultCnt > 0)?"Y":"N");

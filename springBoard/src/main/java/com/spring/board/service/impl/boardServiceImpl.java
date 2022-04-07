@@ -48,10 +48,17 @@ public class boardServiceImpl implements boardService{
 		return boardDao.selectBoard(boardVo);
 	}
 	
+	// null 처리 하자!!!
 	@Override
 	public int boardInsert(BoardVo boardVo) throws Exception {
-		// TODO Auto-generated method stub
-		return boardDao.boardInsert(boardVo);
+		int result = -10;
+		if(boardVo != null) {
+			result = boardDao.boardInsert(boardVo);
+			return result;
+		}
+			
+		return result;
+		//return boardDao.boardInsert(boardVo);
 	}
 
 	@Override

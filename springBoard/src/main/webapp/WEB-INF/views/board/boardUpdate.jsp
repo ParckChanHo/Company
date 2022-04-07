@@ -19,7 +19,7 @@
 		$j("#submit").on("click",function(){
 			var $frm = $j('.boardUpdate :input');
 			var param = $frm.serialize();  // boardType=1&boardNum=13&boardTitle=nnn&boardComment=nnnn
-			alert(param);
+			alert(param); // BoardVo boardVo에 자동으로 저장이 된다.
 			
 			$j.ajax({
 			    url : "/board/boardUpdateAction.do",

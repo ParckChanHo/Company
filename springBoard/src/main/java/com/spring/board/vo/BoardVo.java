@@ -1,4 +1,5 @@
 package com.spring.board.vo;
+import java.util.List;
 
 public class BoardVo {
 	
@@ -11,7 +12,16 @@ public class BoardVo {
 	private int totalCnt;
 	private String 	codeName;
 	
+	private List<BoardVo> boardVoList;
 	
+	public List<BoardVo> getBoardVoList() {
+		return boardVoList;
+	}
+
+	public void setBoardVoList(List<BoardVo> boardVoList) {
+		this.boardVoList = boardVoList;
+	}
+
 	public String getCodeName() {
 		return codeName;
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PageVo {
+	// checkBoxSelect=a01&checkBoxSelect=a02+"&pageNo="+pageVo
 	List<String> checkBoxSelect = null;
 	public int pageNo = 0;
 	
